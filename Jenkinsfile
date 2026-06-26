@@ -4,19 +4,20 @@ pipeline {
 
     stages {
 
-        stage('clone git repo') {
+        stage('Clone Git Repository') {
 
             steps {
 
-                git branch: 'feature-dotun-pipeline', url: 'https://github.com/bloomytech/samplejavaapp.git'
+                git branch: 'main',
+                    url: 'https://github.com/Laran40595/samplejavaapp.git'
 
             }
 
         }
 
-        stage('maven package'){
+        stage('Maven Package') {
 
-            steps{
+            steps {
 
                 sh '/usr/share/maven/bin/mvn package'
 
@@ -24,27 +25,22 @@ pipeline {
 
         }
 
-       
-        stage('publish to jfrog') {
+        stage('Publish to JFrog Artifactory') {
 
             steps {
 
-                rtUpload (
-
-                    serverId: 'jfrog-dev',
-
-                    spec: '''{
-
-                        "files": [{
-
-                        "pattern": "target/sampleapp.war",
-
-                        "target": "generic-local/"
-
-                        }]
-
-                    }'''
-
+                rtUpload(
+                    serverId: 'my-artifactory',
+                    spec: '''
+                    {
+                        "files": [
+                            {
+                                "pattern": "target/sampleapp.war",
+                                "target": "generic-local/"
+                            }
+                        ]
+                    }
+                    '''
                 )
 
             }
@@ -54,4 +50,3 @@ pipeline {
     }
 
 }
-
