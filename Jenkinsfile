@@ -19,7 +19,7 @@ pipeline {
 
             steps {
 
-                sh '/usr/share/maven/bin/mvn package'
+                sh '/usr/share/maven/bin/mvn clean package'
 
             }
 
